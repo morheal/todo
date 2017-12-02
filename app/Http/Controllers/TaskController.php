@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use Response;
 
 use Auth;
 class TaskController extends Controller
@@ -16,8 +17,10 @@ class TaskController extends Controller
       return $new_task;
     }
     //deleting task function
-    public function deleteTask($value='')
+    public function deleteTask(Request $request)
     {
-      # code...
+      $this_task = new Task();
+      $this_task->deleteById($request->id);
+      return $request->id;
     }
 }

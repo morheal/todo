@@ -24,6 +24,8 @@
                         <h3>{{$task->title}}</h3>
                         <p>{{$task->description}}</p>
                         <h4>{{$task->deadline}}</h4>
+                        <a href="#" class="delete_task">Delete task</a>
+                        <input type="hidden" name="task_id" value="{{$task->id}}" class="task_id">
                       </div>
                     @endforeach
                 </div>
@@ -49,11 +51,31 @@
           //adding new task block if ajax was success
           success: function(success) {
             //console.log(success);
-            $(".tasks").append("<div class='task'><p>"+success.title+'</p><p>'+success.deadline+"</p><a class='delete_task' href='/delete/"+success.id+"'>Delete task</a></div>");
+            $(".tasks").append("<div class='task'><h3>"+success.title+'</h3><p>'+success.description+"</p><h4>"+success.deadline+"</h4><a class='delete_task' href='#'>Delete task</a></div>");
           }
         });
     });
-
+    //ajax for deleting task
+    $(document).on("click", ".delete_task", function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        console.log($(this).parent().find(".task_id").val());
+        $.ajax({
+          type: "POST", //Метод отправки
+          url: "/delete_task", //путь до php фаила отправителя
+          dataType: 'json',
+          data: { id: $(this).parent().find(".task_id").val() },
+          success: function(success) {
+            console.log(success);
+            console.log(this);
+              $(".tasks input[value='" + success + "']").parent().remove();
+          }
+        });
+    });
 </script>
 
 @endsection

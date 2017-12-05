@@ -12,7 +12,12 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/showUsersTasks', 'TaskUserController@showUsersTasks');
 Route::post('/add_task', 'TaskController@addTask');
 Route::post('/delete_task', 'TaskController@deleteTask');
+Route::post('/get_users_without_task', 'TaskController@getUsersWithoutTask');
+Route::post('/add_task_user', 'TaskController@addTaskToUser');
+
+Route::get('/get_users_without_task/{i}', 'TaskController@getUsersWithoutTask');
 
 Auth::routes();

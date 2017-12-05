@@ -5,6 +5,12 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Task;
+use App\Task_user;
+use DB;
+use Auth;
+
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -26,4 +32,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    //relationship with task model
+    public function tasks()
+    {
+      return $this->belongsToMany('App\Task');
+    }
 }

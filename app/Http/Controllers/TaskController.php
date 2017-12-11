@@ -8,6 +8,7 @@ use App\Task_user;
 use Response;
 use App\User;
 use DB;
+use App\Mail\TaskAdded;
 
 use Auth;
 class TaskController extends Controller
@@ -39,7 +40,7 @@ class TaskController extends Controller
     public function addTaskToUser(Request $request)
     {
       $user = User::find($request->user_id);
-      $user->tasks()->attach($request->task_id);
+      $user->addTask($request->task_id);
       return Response::json(["username" => $user->name, "task_id" => $request->task_id]);
     }
 }

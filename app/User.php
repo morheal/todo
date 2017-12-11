@@ -37,4 +37,12 @@ class User extends Authenticatable
     {
       return $this->belongsToMany('App\Task');
     }
+
+    public function addTask($task_id)
+    {
+      $this->tasks()->attach($task_id);
+      $this_task = Task::find($task_id);
+      Mail::to($this)->send(new TaskAdded($this_task));
+      return;
+    }
 }
